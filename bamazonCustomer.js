@@ -4,16 +4,9 @@ const Table = require('cli-table');
 
 // instantiate 
 let table = new Table({
-    head: ['Item ID', 'Product Name', 'Department', 'Price']
-  , colWidths: [20, 20, 20, 20]
+    head: ['Item ID', 'Product Name', 'Department', 'Price'],
+    colWidths: [10, 25, 20, 10]
 });
- 
-// table is an Array, so you can `push`, `unshift`, `splice` and friends 
-// table.push(
-//     ['First value', 'Second value']
-//   , ['First value', 'Second value']
-// );
- 
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -28,22 +21,34 @@ const connection = mysql.createConnection({
 });
 
 
+const customerPrompt = () => {
+    inquirer
+        .prompt([{
+                name: 'product_id',
+                type: 'input',
+                message: 'Please enter a product id: '
+            },
+            {
+                name: 'quantity',
+                type: 'input',
+                message: 'Please enter a quantity: '
+            }
 
-const displayProducts = () => {
+        ]);
+}
+
+
+const displayProducts = (callback) => {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) console.log(err);
 
-        for (var i = 0; i < res.length; i++) {
-            table.push(
-                [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price]
-              
-            );
-            // console.log(res[i].product_name);
-        }
+        res.map( x =>  table.push([ x.item_id, x.product_name, x.department_name, x.price ]));
+
         console.log(table.toString());
-        
+        callback();
     });
-    
 }
 
-displayProducts();
+
+
+displayProducts(customerPrompt);
