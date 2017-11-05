@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/ovieh/bamazon#readme",
   "dependencies": {
-    "inquire": "^0.4.8",
-    "table": "^4.0.2"
+    "cli-table": "^0.3.1",
+    "inquire": "^0.4.8"
   }
 }

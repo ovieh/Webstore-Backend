@@ -1,5 +1,19 @@
 const inquirer = require("inquirer");
 const mysql = require('mysql');
+const Table = require('cli-table');
+
+// instantiate 
+let table = new Table({
+    head: ['Item ID', 'Product Name', 'Department', 'Price']
+  , colWidths: [20, 20, 20, 20]
+});
+ 
+// table is an Array, so you can `push`, `unshift`, `splice` and friends 
+// table.push(
+//     ['First value', 'Second value']
+//   , ['First value', 'Second value']
+// );
+ 
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -20,9 +34,16 @@ const displayProducts = () => {
         if (err) console.log(err);
 
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].product_name);
+            table.push(
+                [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price]
+              
+            );
+            // console.log(res[i].product_name);
         }
+        console.log(table.toString());
+        
     });
+    
 }
 
 displayProducts();
