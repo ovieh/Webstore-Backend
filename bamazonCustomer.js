@@ -89,7 +89,7 @@ const calculateCost = (quantity, price) => {
 
 
 const displayProducts = (callback) => {
-	connection.query("SELECT * FROM products", function (err, res) {
+	connection.query("SELECT * FROM products", (err, res) => {
 		if (err) throw err;
 
 		res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price)]));

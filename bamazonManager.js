@@ -28,14 +28,14 @@ const calculateCost = (quantity, price) => {
 
 
 
-const displayProducts = () => {
-	connection.query("SELECT * FROM products", function (err, res) {
+const displayProducts = (callback) => {
+	connection.query("SELECT * FROM products", (err, res) => {
 		if (err) throw err;
 
 		res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
 
 		console.log(table.toString());
-		// callback();
+		callback();
 	});
 }
 
@@ -60,10 +60,10 @@ const listOptions = () => {
     }]).then(answer => {
         switch (answer.choice) {
             case 'View Products for Sale':
-                displayProducts();
+                displayProducts(listOptions);
                 break;
             case 'View Low Inventory':
-                displayLowInventory();
+                displayLowInventory(listOptions);
                 break;
             case 'Add to Inventory':
                 addInventory();
@@ -75,6 +75,14 @@ const listOptions = () => {
         }
     })
 }
+const displayLowInventory = (callback) => {
+    connection.query("SELECT * FROM products WHERE stock_quantity < 5", (err, res) => {
+		if (err) throw err;
+		res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
 
+		console.log(table.toString());
+		callback();
+	});
+}
 listOptions();
 
