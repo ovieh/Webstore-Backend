@@ -108,7 +108,7 @@ const addInventory = (callback) => {
                 "SELECT stock_quantity, product_name  FROM products WHERE item_id = ?", answer.product_id,
                 (err, res) => {
                     if (err) throw err;
-                    updateInventory(res, parseInt(answer.quantity));
+                    updateInventory(res, parseInt(answer.quantity), newAction);
                 }
             )
         })
@@ -116,7 +116,7 @@ const addInventory = (callback) => {
     // callback();
 }
 
-const updateInventory = (product, quantity) => {
+const updateInventory = (product, quantity, callback) => {
     let newQty = product[0].stock_quantity + quantity;
 
     connection.query(
@@ -129,10 +129,27 @@ const updateInventory = (product, quantity) => {
             if (err) throw err;
 
             console.log(`The quantity of ${product[0].product_name} is now ${product[0].stock_quantity}.`);
+            callback();
+            
         }
     )
 
-    
+}
+
+const newAction = () => {
+	inquirer.prompt([{
+			type: 'confirm',
+			name: 'action',
+			message: 'Would you like to perform another action?',
+			default: false
+		}])
+		.then(answer => {
+			if (answer.action === true) {
+				displayProducts(listOptions);
+			} else {
+				process.exit();
+			}
+		})
 }
 
 listOptions();
