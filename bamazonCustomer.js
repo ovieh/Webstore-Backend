@@ -58,12 +58,12 @@ const customerPrompt = () => {
 const updateInventory = (product, quantity, id, callback) => {
 	let newQty = product[0].stock_quantity - quantity;
 	const query = connection.query(
-		"UPDATE products SET ? WHERE ?", [{
+		"UPDATE products SET ? WHERE ?", [
+			{
 				stock_quantity: newQty
 			},
 			{
 				item_id: id
-
 			}
 		], (err, res) => {
 			if (err) throw err;
