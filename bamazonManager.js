@@ -81,6 +81,7 @@ const displayLowInventory = (callback) => {
     connection.query("SELECT * FROM products WHERE stock_quantity < 5", (err, res) => {
         if (err) throw err;
         res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
+        console.log("\n")
 
         console.log(table.toString());
         callback();
@@ -130,26 +131,65 @@ const updateInventory = (product, quantity, callback) => {
 
             console.log(`The quantity of ${product[0].product_name} is now ${product[0].stock_quantity}.`);
             callback();
-            
+
         }
     )
 
 }
 
 const newAction = () => {
-	inquirer.prompt([{
-			type: 'confirm',
-			name: 'action',
-			message: 'Would you like to perform another action?',
-			default: false
-		}])
-		.then(answer => {
-			if (answer.action === true) {
-				displayProducts(listOptions);
-			} else {
-				process.exit();
-			}
-		})
+    inquirer.prompt([{
+            type: 'confirm',
+            name: 'action',
+            message: 'Would you like to perform another action?',
+            default: false
+        }])
+        .then(answer => {
+            if (answer.action === true) {
+                displayProducts(listOptions);
+            } else {
+                process.exit();
+            }
+        })
+}
+
+const addProduct = () => {
+    inquirer.prompt([{
+            name: 'name',
+            message: 'Enter the product name.',
+            type: 'input'
+        },
+        {
+            name: 'department',
+            message: 'Enter the products department.',
+            type: 'input'
+        },
+        {
+            name: 'quantity',
+            message: 'Enter the quantity of the product',
+            type: 'input'
+        },
+        {
+            name: 'price',
+            message: 'Enter the price of the product.',
+            type: 'input'
+
+        }
+
+    ]).then(answer =>
+        connection.query(
+            'INSERT INTO products SET ?', {
+                product_name: answer.name,
+                department_name: answer.department,
+                price: answer.price,
+                stock_quantity: answer.quantity
+            },
+            (err, res) => {
+                console.log(res.affectedRows + " product inserted!\n");
+
+            }
+        )
+    )
 }
 
 listOptions();
