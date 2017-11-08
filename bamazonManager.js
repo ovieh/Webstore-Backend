@@ -73,7 +73,6 @@ const listOptions = () => {
             case 'Add New Product':
                 addProduct();
                 break;
-
         }
     })
 }
@@ -88,7 +87,7 @@ const displayLowInventory = (callback) => {
     });
 }
 
-const addInventory = (callback) => {
+const addInventory = () => {
 
     inquirer
         .prompt([{
@@ -142,6 +141,8 @@ const newAction = () => {
             default: false
         }])
         .then(answer => {
+
+            // answer.filter(x => x.action === true) {displayProducts(listOptions)};
             if (answer.action === true) {
                 displayProducts(listOptions);
             } else {
@@ -150,7 +151,7 @@ const newAction = () => {
         })
 }
 
-const addProduct = () => {
+const addProduct = (callback) => {
     inquirer.prompt([{
             name: 'name',
             message: 'Enter the product name.',
@@ -182,11 +183,12 @@ const addProduct = () => {
                 stock_quantity: answer.quantity
             },
             (err, res) => {
-                console.log(res.affectedRows + " product inserted!\n");
-
+                console.log(res.affectedRows + " product inserted!");
+                setTimeout(newAction, 500);
             }
         )
     )
+    // callback();
 }
 
 listOptions();
