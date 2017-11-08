@@ -32,7 +32,9 @@ const displayProducts = (callback) => {
     connection.query("SELECT * FROM products", (err, res) => {
         if (err) throw err;
 
-        res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
+        res
+        .filter(x => {console.log(x.item_id)} )
+        .map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
 
         console.log(table.toString());
 
@@ -46,6 +48,8 @@ let table = new Table({
     head: ['Item ID', 'Product Name', 'Department', 'Price', 'Quantity'],
     colWidths: [10, 25, 20, 12, 12]
 });
+
+
 
 
 const listOptions = () => {
@@ -77,10 +81,15 @@ const listOptions = () => {
     })
 }
 const displayLowInventory = (callback) => {
+
+    let table = new Table({
+        head: ['Item ID', 'Product Name', 'Department', 'Price', 'Quantity'],
+        colWidths: [10, 25, 20, 12, 12]
+    });
+
     connection.query("SELECT * FROM products WHERE stock_quantity < 5", (err, res) => {
         if (err) throw err;
         res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
-        console.log("\n");
 
         console.log(table.toString());
         callback();
@@ -113,13 +122,10 @@ const addInventory = () => {
             )
         })
 
-    // callback();
 }
 
 const updateInventory = (product, quantity, callback) => {
     let newQty = product[0].stock_quantity + quantity;
-    // console.log(newQty + " New Quantity");
-    // console.log(product);
     connection.query(
         "UPDATE products SET stock_quantity = ? WHERE item_id = ?", [newQty, product[0].item_id],
         (err, res) => {
@@ -151,7 +157,7 @@ const newAction = () => {
         })
 }
 
-const addProduct = (callback) => {
+const addProduct = () => {
     inquirer.prompt([{
             name: 'name',
             message: 'Enter the product name.',
@@ -184,11 +190,10 @@ const addProduct = (callback) => {
             },
             (err, res) => {
                 console.log(res.affectedRows + " product inserted!");
-                setTimeout(newAction, 500);
+                newAction();
             }
         )
     )
-    // callback();
 }
 
 listOptions();

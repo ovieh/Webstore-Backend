@@ -11,7 +11,7 @@ CREATE TABLE products (
     price DECIMAL (7, 2),
     stock_quantity INT NULL,
     PRIMARY KEY (item_ID)
-)
+);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("iPhone X", "Cell Phones", 1000.00, 500);
@@ -42,3 +42,8 @@ VALUES ("Oven Thermometor", "Kitchen", 5.60, 200);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Diapers", "Baby", 500.00, 10000);
+
+
+CREATE TABLE departments (
+
+);
