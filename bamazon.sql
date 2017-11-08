@@ -23,7 +23,7 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("A Dance for Dragons", "Books", 20.00, 1000);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Samsung Television", "Eleectronics", 550.00, 7500);
+VALUES ("Samsung Television", "Electronics", 550.00, 7500);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("USB Type C Cable" , "Electronics", 10.00, 9000);

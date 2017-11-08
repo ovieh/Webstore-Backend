@@ -22,9 +22,9 @@ const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
 });
 
-const calculateCost = (quantity, price) => {
-    return formatter.format(quantity * price);
-}
+// const calculateCost = (quantity, price) => {
+//     return formatter.format(quantity * price);
+// }
 
 
 
@@ -81,7 +81,7 @@ const displayLowInventory = (callback) => {
     connection.query("SELECT * FROM products WHERE stock_quantity < 5", (err, res) => {
         if (err) throw err;
         res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
-        console.log("\n")
+        console.log("\n");
 
         console.log(table.toString());
         callback();
@@ -106,7 +106,7 @@ const addInventory = (callback) => {
 
         ]).then(answer => {
             connection.query(
-                "SELECT stock_quantity, product_name  FROM products WHERE item_id = ?", answer.product_id,
+                "SELECT stock_quantity, product_name, item_id FROM products WHERE item_id = ?", answer.product_id,
                 (err, res) => {
                     if (err) throw err;
                     updateInventory(res, parseInt(answer.quantity), newAction);
@@ -119,17 +119,14 @@ const addInventory = (callback) => {
 
 const updateInventory = (product, quantity, callback) => {
     let newQty = product[0].stock_quantity + quantity;
-
+    // console.log(newQty + " New Quantity");
+    // console.log(product);
     connection.query(
-        "UPDATE products SET ? WHERE ?", [{
-            stock_quantity: newQty
-        }, {
-            item_id: quantity
-        }],
+        "UPDATE products SET stock_quantity = ? WHERE item_id = ?", [newQty, product[0].item_id],
         (err, res) => {
             if (err) throw err;
-
-            console.log(`The quantity of ${product[0].product_name} is now ${product[0].stock_quantity}.`);
+            // console.log(res);
+            console.log(`The quantity of ${product[0].product_name}s is now ${product[0].stock_quantity + quantity}.`);
             callback();
 
         }
