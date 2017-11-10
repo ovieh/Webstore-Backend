@@ -160,22 +160,22 @@ const newAction = () => {
 const addProduct = () => {
     inquirer.prompt([{
             name: 'name',
-            message: 'Enter the product name.',
+            message: 'Enter the product name: ',
             type: 'input'
         },
         {
             name: 'department',
-            message: 'Enter the products department.',
+            message: 'Enter the products department: ',
             type: 'input'
         },
         {
             name: 'quantity',
-            message: 'Enter the quantity of the product',
+            message: 'Enter the quantity of the product: ',
             type: 'input'
         },
         {
             name: 'price',
-            message: 'Enter the price of the product.',
+            message: 'Enter the price of the product: ',
             type: 'input'
 
         }

@@ -22,8 +22,14 @@ npm install
 
 ## Usage
 
-![Customer Gif](/img/customer.gif)
-Demonstration of bamazonCustomer.js
+### Customer View
+
+![Customer View Gif](/img/customer.gif)
+
+### Manager View
+
+![Manager View Gif](/img/manager.gif)
+
 
 ## Maintainers
 
