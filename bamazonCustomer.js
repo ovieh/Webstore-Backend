@@ -2,12 +2,6 @@ const inquirer = require("inquirer");
 const mysql = require('mysql');
 const Table = require('cli-table');
 
-// instantiate 
-let table = new Table({
-	head: ['Item ID', 'Product Name', 'Department', 'Price'],
-	colWidths: [10, 25, 20, 12]
-});
-
 const connection = mysql.createConnection({
 	host: "localhost",
 	port: 3306,
@@ -58,8 +52,7 @@ const customerPrompt = () => {
 const updateInventory = (product, quantity, id, callback) => {
 	let newQty = product[0].stock_quantity - quantity;
 	const query = connection.query(
-		"UPDATE products SET ? WHERE ?", [
-			{
+		"UPDATE products SET ? WHERE ?", [{
 				stock_quantity: newQty
 			},
 			{
@@ -72,7 +65,7 @@ const updateInventory = (product, quantity, id, callback) => {
 			callback();
 		}
 	)
-	
+
 }
 
 // Create our number formatter.
@@ -89,6 +82,12 @@ const calculateCost = (quantity, price) => {
 
 
 const displayProducts = (callback) => {
+	// instantiate 
+	let table = new Table({
+		head: ['Item ID', 'Product Name', 'Department', 'Price'],
+		colWidths: [10, 25, 20, 12]
+	});
+	
 	connection.query("SELECT * FROM products", (err, res) => {
 		if (err) throw err;
 

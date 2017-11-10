@@ -29,12 +29,17 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 
 const displayProducts = (callback) => {
+    // instantiate 
+    let table = new Table({
+        head: ['Item ID', 'Product Name', 'Department', 'Price', 'Quantity'],
+        colWidths: [10, 25, 20, 12, 12]
+    });
+
+
     connection.query("SELECT * FROM products", (err, res) => {
         if (err) throw err;
 
-        res
-        .filter(x => {console.log(x.item_id)} )
-        .map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
+        res.map(x => table.push([x.item_id, x.product_name, x.department_name, formatter.format(x.price), x.stock_quantity]));
 
         console.log(table.toString());
 
@@ -42,12 +47,6 @@ const displayProducts = (callback) => {
     });
 
 }
-
-// instantiate 
-let table = new Table({
-    head: ['Item ID', 'Product Name', 'Department', 'Price', 'Quantity'],
-    colWidths: [10, 25, 20, 12, 12]
-});
 
 
 
@@ -81,11 +80,12 @@ const listOptions = () => {
     })
 }
 const displayLowInventory = (callback) => {
-
+    // instantiate 
     let table = new Table({
         head: ['Item ID', 'Product Name', 'Department', 'Price', 'Quantity'],
         colWidths: [10, 25, 20, 12, 12]
     });
+
 
     connection.query("SELECT * FROM products WHERE stock_quantity < 5", (err, res) => {
         if (err) throw err;
