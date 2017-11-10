@@ -22,7 +22,7 @@ npm install
 
 ## Usage
 
-[Customer Gif](./img/customer.gif)
+![Customer Gif](/img/customer.gif)
 Demonstration of bamazonCustomer.js
 
 ## Maintainers
