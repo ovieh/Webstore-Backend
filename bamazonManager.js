@@ -171,12 +171,22 @@ const addProduct = () => {
         {
             name: 'quantity',
             message: 'Enter the quantity of the product: ',
-            type: 'input'
+            type: 'input',
+            validate: value => {
+                const valid = !isNaN(parseInt(value));
+                return valid || 'Please enter a number'
+            },
+            filter: Number
         },
         {
             name: 'price',
             message: 'Enter the price of the product: ',
-            type: 'input'
+            type: 'input',
+            validate: value => {
+                const valid = !isNaN(parseInt(value));
+                return valid || 'Please enter a number'
+            },
+            filter: Number
 
         }
 
